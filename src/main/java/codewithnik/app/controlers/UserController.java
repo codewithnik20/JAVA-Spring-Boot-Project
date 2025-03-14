@@ -30,8 +30,8 @@ public class UserController {
 	    return ResponseEntity.ok("Test API is working!");
 	}
 	@PostMapping("/")
-	public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto){          //request ko DTO me store karaya aur aur use @Requestbody ki help se call kiya constructor mein 
-		UserDto createUserDto =this.userService.createUser(userDto);                  //phir us dto ko createuser method me pass kiya aur phir class ka instance banake return karaya http response ke bhes me
+	public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto){           
+		UserDto createUserDto =this.userService.createUser(userDto);                  
 		return new ResponseEntity<>(createUserDto, HttpStatus.CREATED);
 	      //POST_createuser	
 	}
