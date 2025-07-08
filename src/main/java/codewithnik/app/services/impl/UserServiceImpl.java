@@ -1,13 +1,15 @@
 package codewithnik.app.services.impl;
-
 import java.util.List;  
 import java.util.stream.Collectors;
-
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
 import codewithnik.app.entities.User;
 import codewithnik.app.loadouts.UserDto;
+import codewithnik.app.loadouts.UserResponse;
 import codewithnik.app.repositories.UserRepo;
 import codewithnik.app.services.UserService;
 import codewithnik.app.exception.*;
@@ -18,6 +20,8 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	UserRepo userRepo;
 	
+	@Autowired
+	ModelMapper modelMapper;
 	 
 	@Override
 	public UserDto createUser(UserDto userDto) {
@@ -26,14 +30,12 @@ public class UserServiceImpl implements UserService {
 		User savedUser=this.userRepo.save(user);
 		return this.userToDto(savedUser);
 		
-		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public UserDto updateUser(UserDto userDto,Integer userId) {
 		
 		User user=this.userRepo.findById(userId).orElseThrow(()-> new ResourceNotFoundException("User", " Id ", userId));
-		// TODO Auto-generated method stub
 		user.setName(userDto.getName());
 		user.setEmail(userDto.getEmail());
 		user.setPassword(userDto.getPassword());
@@ -52,12 +54,23 @@ public class UserServiceImpl implements UserService {
 		return this.userToDto(user);
 		
 	}
-
+	
 	@Override
-	public List<UserDto> getAllUsers() {
-		List<User> users=this.userRepo.findAll();
-		List<UserDto> userDtos= users.stream().map(user->this.userToDto(user)).collect(Collectors.toList());
-		return userDtos; 
+	public UserResponse getAllUsers(Integer pageNumber, Integer pageSize) {
+		
+		Pageable p = PageRequest.of(pageNumber, pageSize);
+		
+		Page<User> userr=this.userRepo.findAll(p);
+		 List<User> usercon = userr.getContent();
+		List<UserDto> userDtos= usercon.stream().map(user->this.userToDto(user)).collect(Collectors.toList());
+		UserResponse userResponse = new UserResponse();
+		userResponse.setContent(userDtos);
+		userResponse.setPageNumber(userr.getNumber());
+		userResponse.setPageSize(userr.getSize());
+		userResponse.setTotalElements(userr.getTotalElements());
+		userResponse.setTotalPages(userr.getTotalPages());
+		userResponse.setLastPage(userr.isLast());
+		return userResponse; 
 	}
 
 	@Override
@@ -67,27 +80,22 @@ public class UserServiceImpl implements UserService {
 
 	}
 	
-
 	private User dtoToUser(UserDto userDto) {
-		User user = new User();
-		user.setId(userDto.getId());
-		user.setName(userDto.getName());
-		user.setEmail(userDto.getEmail());
-		user.setAbout(userDto.getAbout());
-		user.setPassword(userDto.getPassword());
+		User user =this.modelMapper.map(userDto, User.class);
 		return user;
 	}
 	
-	public UserDto userToDto(User user) 
-	{
-		UserDto userDto =new UserDto();
+	public UserDto userToDto(User user) {
+		UserDto userDto=this.modelMapper.map(user, UserDto.class);
+	/*	UserDto userDto =new UserDto();
 		userDto.setId(user.getId());
 		userDto.setName(user.getName());
 		userDto.setEmail(user.getEmail());
 		userDto.setAbout(user.getAbout());
-		userDto.setPassword(user.getPassword());
+		userDto.setPassword(user.getPassword());        */
 		return userDto;
 	}
+
 	}
 
 

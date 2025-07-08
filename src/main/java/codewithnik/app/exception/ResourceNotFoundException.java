@@ -1,11 +1,11 @@
 package codewithnik.app.exception;
-import lombok.Getter;   
+import lombok.Getter;    
 import  lombok.Setter;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
-@Getter
 @Setter
+@Getter
 
 public class ResourceNotFoundException extends RuntimeException {
 	
@@ -15,7 +15,7 @@ public class ResourceNotFoundException extends RuntimeException {
 		
    
 	public ResourceNotFoundException(String resourceName,String fieldName,long fieldValue) {
-		super(String.format("%s not found with %s :%s", resourceName, fieldName, fieldValue));
+		super("%s not found with %s :%s".formatted(resourceName, fieldName, fieldValue));
 		this.resourceName=resourceName;
 		this.fieldName=fieldName;
 		this.fieldValue=fieldValue;
