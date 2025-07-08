@@ -1,116 +1,87 @@
-Blog Application - Spring Boot + MySQL (CURRENTLY WORKING)
+Blog App Backend - Spring Boot & JWT 🔐
+This is a RESTful backend for a Blog Application built using Spring Boot, secured with JWT Authentication. It includes features like user registration, login, role-based access, post and comment management, and more.
 
-📌 Introduction
+🚀 Features
+JWT-based Authentication and Authorization
 
-This is a Blog Application built using Spring Boot and MySQL. The app allows users to create, update, and manage blog posts securely using JWT authentication.
+User registration & login with password hashing
 
-🔧 Tech Stack
+Role-based access control (admin/user)
 
-Backend: Java, Spring Boot
+CRUD operations for:
 
-Database: MySQL
+Posts
 
-Security: Spring Security, JWT Authentication
+Comments
 
-Build Tool: Maven
+Users
 
-Version Control: Git & GitHub
+Secure password storage using BCrypt
 
-📂 Project Structure
+Exception handling and proper status responses
 
-|--- src/main/java/com/codewithnik/blogapp
-|   |-- controllers/   # Handles HTTP requests
-|   |-- entities/      # Database entities
-|   |-- repositories/  # JPA repositories
-|   |-- services/      # Business logic
-|   |-- config/        # Security & CORS configurations
-|--- src/main/resources
-|   |-- application.properties  # Database config
-|--- pom.xml            # Maven dependencies
-|--- README.md          # Project documentation
+🧑‍💻 Technologies Used
+Java 17
 
-📑 Features
+Spring Boot
 
-✔️ User Registration & Login (JWT Auth)
-✔️ CRUD operations for Blog Posts
-✔️ Commenting on Posts
-✔️ User Roles & Authorization
-✔️ Secure API Endpoints
+Spring Security
 
-⚙️ Setup & Installation
+JWT (JSON Web Token)
 
-1️⃣ Clone Repository
+MySQL / H2 Database
 
-git clone https://github.com/codewithnik20/JAVA-Spring-Boot-Project.git
+Maven
+
+Lombok
+
+Postman (for API testing)
+
+📦 Project Structure
+bash
+Copy
+Edit
+com.nikstack.blogapp
+│
+├── controllers       # API endpoints
+├── services          # Business logic
+├── repositories      # Data access layer
+├── entities          # JPA Entities
+├── config            # Security and app configs
+├── payloads          # Request & Response DTOs
+└── utils             # Helper classes (e.g. JWT utils)
+
+📲 API Endpoints
+Method	Endpoint	Access	Description
+POST	/api/auth/register	Public	Register a new user
+POST	/api/auth/login	Public	Login with credentials
+GET	/api/users	Admin Only	Fetch all users
+POST	/api/posts	User/Admin	Create a blog post
+PUT	/api/posts/{id}	Owner/Admin	Update post
+DELETE	/api/comments/{id}	Owner/Admin	Delete comment
+
+⚠️ For secured routes, include Authorization: Bearer <JWT Token> in headers.
+
+🛠️ Setup Instructions
+Clone the repo
+
+bash
+Copy
+Edit
+git clone https://github.com/NikStack/JAVA-Spring-Boot-Project.git
 cd JAVA-Spring-Boot-Project
+Update application.properties with your DB config
 
-2️⃣ Configure MySQL Database
+Run the app using:
 
-Update application.properties:
+bash
+Copy
+Edit
+./mvnw spring-boot:run
+Use Postman to test the API
 
-spring.datasource.url=jdbc:mysql://localhost:3306/blog_app_apis
-spring.datasource.username=root
-spring.datasource.password=202005
-spring.jpa.hibernate.ddl-auto=update
-
-3️⃣ Run the Application
-
-mvn spring-boot:run
-
-The backend will start at http://localhost:9091
-
-🔗 API Endpoints
-
-Method
-
-Endpoint
-
-Description
-
-POST
-
-/api/auth/signup
-
-User Registration
-
-POST
-
-/api/auth/login
-
-User Login (JWT)
-
-GET
-
-/api/posts
-
-Get all posts
-
-POST
-
-/api/posts
-
-Create new post
-
-PUT
-
-/api/posts/{id}
-
-Update a post
-
-DELETE
-
-/api/posts/{id}
-
-Delete a post
-
-🚀 Future Enhancements
-
-Implement Frontend using React/Angular
-
-Add File Upload for blog images
-
-Improve Commenting System
+📄 License
+This project is licensed under MIT - feel free to use it for learning or as a base for your own app.
 
 👨‍💻 Author
-
-Nikhil Chauhan 📧 codingnik20@gmail.com 🔗 Git Hub User- codewithnik20
+Nikhil Chauhan 📧 codingnik20@gmail.com 🔗 Git Hub User- NikStack
